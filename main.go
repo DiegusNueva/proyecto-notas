@@ -85,7 +85,7 @@ func consultarNotas() {
 func borrarNota() []Nota {
 	var ID int
 	consultarNotas()
-	fmt.Println("¿Qué nota quieres editar?")
+	fmt.Println("¿Qué nota quieres borrar?")
 	fmt.Scan(&ID)
 	var nuevasNotas []Nota
 	for _, nota := range notas {
