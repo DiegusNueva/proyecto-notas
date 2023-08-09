@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 	"time"
 )
 
@@ -45,7 +47,10 @@ func crearNota() Nota {
 	var contenidoNota string
 	idActual++
 	fmt.Println("Introduce el contenido de la nota:")
-	fmt.Scan(&contenidoNota)
+	scanner := bufio.NewScanner(os.Stdin)
+	if scanner.Scan() {
+		contenidoNota = scanner.Text()
+	}
 	nuevaNota := Nota{
 		ID:        idActual,
 		Contenido: contenidoNota,
@@ -63,7 +68,10 @@ func editarNota() {
 	fmt.Scan(&ID)
 	notaEncontrada := encontrarNotaPorID(ID)
 	fmt.Println("Cambia el contenido de la nota:")
-	fmt.Scan(&contenidoNuevoNota)
+	scanner := bufio.NewScanner(os.Stdin)
+	if scanner.Scan() {
+		contenidoNuevoNota = scanner.Text()
+	}
 	notaEncontrada.Contenido = contenidoNuevoNota
 	fmt.Println("Nota editada correctamente")
 }
