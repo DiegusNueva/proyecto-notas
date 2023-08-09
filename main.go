@@ -73,6 +73,7 @@ func editarNota() {
 		contenidoNuevoNota = scanner.Text()
 	}
 	notaEncontrada.Contenido = contenidoNuevoNota
+	notaEncontrada.Fecha = time.Now()
 	fmt.Println("Nota editada correctamente")
 }
 
