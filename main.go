@@ -11,9 +11,11 @@ type Nota struct {
 	Fecha     time.Time
 }
 
+var idActual int = 0
+var notas []Nota
+
 func main() {
 	for true {
-
 		var opcion int
 
 		fmt.Println("Bienvenido a la aplicación de notas")
@@ -39,21 +41,52 @@ func main() {
 	fmt.Println("¡Hasta luego!")
 }
 
-func crearNota() {
-
-	fmt.Println("Función crearNota")
+func crearNota() Nota {
+	var contenidoNota string
+	idActual++
+	fmt.Println("Introduce el contenido de la nota:")
+	fmt.Scan(&contenidoNota)
+	nuevaNota := Nota{
+		ID:        idActual,
+		Contenido: contenidoNota,
+		Fecha:     time.Now(),
+	}
+	fmt.Println("Nota creada correctamente")
+	return nuevaNota
 }
 
 func editarNota() {
-	fmt.Println("Función editarNota")
+	var contenidoNuevoNota string
+	var ID int
+	consultarNotas()
+	fmt.Println("¿Qué nota quieres editar?")
+	fmt.Scan(&ID)
+	notaEncontrada := encontrarNotaPorID(ID)
+	fmt.Println("Cambia el contenido de la nota:")
+	fmt.Scan(&contenidoNuevoNota)
+	notaEncontrada.Contenido = contenidoNuevoNota
+	fmt.Println("Nota editada correctamente")
 }
 
 func consultarNotas() {
-	fmt.Println("Función consultarNotas")
+	for _, nota := range notas {
+		fmt.Printf("ID: %d, Contenido: %s, Fecha: %s\n", nota.ID, nota.Contenido, nota.Fecha)
+	}
 }
 
-func borrarNota() {
-	fmt.Println("Función borrarNota")
+func borrarNota() []Nota {
+	var ID int
+	consultarNotas()
+	fmt.Println("¿Qué nota quieres editar?")
+	fmt.Scan(&ID)
+	var nuevasNotas []Nota
+	for _, nota := range notas {
+		if nota.ID != ID {
+			nuevasNotas = append(nuevasNotas, nota)
+		}
+	}
+	fmt.Println("Nota borrada correctamente")
+	return nuevasNotas
 }
 
 func opcionIncorrecta() {
@@ -63,14 +96,26 @@ func opcionIncorrecta() {
 func menu(opcionSeleccionada int) {
 	switch opcionSeleccionada {
 	case 1:
-		crearNota()
+		notaCreada := crearNota()
+		notas = append(notas, notaCreada)
 	case 2:
 		editarNota()
 	case 3:
 		consultarNotas()
 	case 4:
-		borrarNota()
+		notas := borrarNota()
+		cantidadNotas := len(notas)
+		fmt.Println("Notas en total:", cantidadNotas)
 	default:
 		opcionIncorrecta()
 	}
+}
+
+func encontrarNotaPorID(id int) *Nota {
+	for i := range notas {
+		if notas[i].ID == id {
+			return &notas[i]
+		}
+	}
+	return nil
 }
