@@ -93,6 +93,7 @@ func borrarNota() []Nota {
 			nuevasNotas = append(nuevasNotas, nota)
 		}
 	}
+	consultarNotas()
 	fmt.Println("Nota borrada correctamente")
 	return nuevasNotas
 }
@@ -111,7 +112,7 @@ func menu(opcionSeleccionada int) {
 	case 3:
 		consultarNotas()
 	case 4:
-		notas := borrarNota()
+		notas = borrarNota()
 		cantidadNotas := len(notas)
 		fmt.Println("Notas en total:", cantidadNotas)
 	default:
